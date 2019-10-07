@@ -10,15 +10,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.eci.BiciRoute.Models.Point;
-import edu.eci.BiciRoute.Repositories.PointRepository;
+import edu.eci.BiciRoute.Repositories.IPointRepository;
 
 @RestController
-@RequestMapping("/point")
-public class PointController {
-    @Autowired
-    private PointRepository repository;
+@RequestMapping("v1/point")
+public class PointController{
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @Autowired
+    private IPointRepository repository;
+
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
     public List<Point> getAllPoints() {
         return repository.findAll();
     }

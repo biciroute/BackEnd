@@ -1,23 +1,20 @@
 package edu.eci.BiciRoute.Models;
 
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Document
-public class User{
+public class Bicicle {
     @Id
-    private ObjectId _id;
-    private String email;
-    private String name;
-    private TypeUser typeUser;
-    private int amountKilometers;
-    private Bicicle bicicle;
+    private int id;
+    private String frame;
+    private String bars;
+    private String forks;
+    private String stem;
 }

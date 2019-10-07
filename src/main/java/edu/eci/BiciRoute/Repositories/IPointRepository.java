@@ -5,6 +5,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import edu.eci.BiciRoute.Models.Point;
 
-public interface PointRepository extends MongoRepository<Point, String> {
+public interface IPointRepository extends MongoRepository<Point, String> {
     Point findBy_id(ObjectId _id);
 }
