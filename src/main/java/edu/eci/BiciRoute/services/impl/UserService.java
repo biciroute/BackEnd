@@ -21,13 +21,13 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void removeUser(String userId) {
-
+    public void removeUser(String email) {
+        userRepository.removeUserByEmailEquals(email);
     }
 
     @Override
-    public User updateUser(User user) {
-        return null;
+    public User updateUser(String email , User user) {
+       return userRepository.updateUser(email,user);
     }
 
     @Override

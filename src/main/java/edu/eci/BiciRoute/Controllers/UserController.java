@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import javax.websocket.server.PathParam;
+
 
 @RestController
 @RequestMapping("v1/user")
@@ -32,6 +34,16 @@ public class UserController {
     public ResponseEntity<?> saveUser(@RequestBody User user){
         try{
             iUserService.saveUser(user);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<>("You can not create user", HttpStatus.FORBIDDEN);
+        }
+    }
+
+    @PutMapping("/{email}")
+    public ResponseEntity<?> saveUser(@PathVariable("email") String email, @RequestBody User user){
+        try{
+            iUserService.updateUser(email,user);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>("You can not create user", HttpStatus.FORBIDDEN);

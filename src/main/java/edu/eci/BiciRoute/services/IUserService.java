@@ -13,7 +13,7 @@ public interface IUserService {
 
     void removeUser(String userId);
 
-    User updateUser(User user);
+    User updateUser(String email , User user);
 
     void saveUser(User user);
 }
