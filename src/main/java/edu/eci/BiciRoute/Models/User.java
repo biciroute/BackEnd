@@ -19,5 +19,6 @@ public class User{
     private String name;
     private TypeUser typeUser;
     private int amountKilometers;
+    private int burntCalories;
     private Bicicle bicicle;
 }

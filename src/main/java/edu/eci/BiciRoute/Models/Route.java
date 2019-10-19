@@ -19,8 +19,4 @@ public class Route{
     private Point destination;
     private Point commonOrigin;
     private Point commonDestination;
-
-
-    
-    
 }
