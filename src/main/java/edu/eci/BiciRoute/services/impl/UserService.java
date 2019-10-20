@@ -22,12 +22,14 @@ public class UserService implements IUserService {
 
     @Override
     public void removeUser(String userId) {
-
+        userRepository.deleteById(userId);
     }
 
+
+
     @Override
-    public User updateUser(User user) {
-        return null;
+    public void updateUser(User user) {
+        userRepository.save(user);
     }
 
     @Override

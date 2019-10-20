@@ -1,8 +1,8 @@
 package edu.eci.BiciRoute.Controllers;
 
-
+import edu.eci.BiciRoute.Models.Route;
 import edu.eci.BiciRoute.Models.User;
-import edu.eci.BiciRoute.services.IUserService;
+import edu.eci.BiciRoute.services.IRouteService;
 import org.bson.types.ObjectId;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,27 +12,26 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 
 @RestController
-@RequestMapping("v1/user")
+@RequestMapping("v1/route")
 @CrossOrigin
-public class UserController {
+public class RouteController {
 
     @Autowired
-    @Qualifier("userImplService")
-    private IUserService iUserService;
+    private IRouteService iRouteService;
 
-    @GetMapping
-    public ResponseEntity<?> getAllUser(){
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<?> getAllUser(@PathVariable String id){
         try{
-            return new ResponseEntity<>(iUserService.getUserList(),HttpStatus.OK);
+            return new ResponseEntity<>(iRouteService.getRouteList(id),HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>("It is not posssible bring all users", HttpStatus.NOT_FOUND);
         }
     }
 
     @PostMapping
-    public ResponseEntity<?> saveUser(@RequestBody User user){
+    public ResponseEntity<?> saveRoute(@RequestBody Route route){
         try{
-            iUserService.saveUser(user);
+            iRouteService.saveRoute(route);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>("You can not create user", HttpStatus.FORBIDDEN);
@@ -40,9 +39,9 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity<?> updateUser(@RequestBody User user){
+    public ResponseEntity<?> updateRoute(@RequestBody Route route){
         try{
-            iUserService.updateUser(user);
+            iRouteService.updateRoute(route);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>("You can not update user", HttpStatus.FORBIDDEN);
@@ -51,17 +50,13 @@ public class UserController {
 
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable ObjectId id){
+    public ResponseEntity<?> deleteRoute(@PathVariable String id){
         try{
-            iUserService.removeUser(id);
+            iRouteService.removeRoute(id);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>("You can not delete user", HttpStatus.FORBIDDEN);
         }
     }
-
-
-
-
 
 }

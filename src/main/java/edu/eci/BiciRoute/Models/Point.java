@@ -17,4 +17,5 @@ public class Point {
     private String latitude;
     private String longitude;
 
+
 }

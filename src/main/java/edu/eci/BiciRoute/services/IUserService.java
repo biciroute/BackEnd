@@ -2,6 +2,7 @@ package edu.eci.BiciRoute.services;
 
 
 import edu.eci.BiciRoute.Models.User;
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -13,7 +14,7 @@ public interface IUserService {
 
     void removeUser(String userId);
 
-    User updateUser(User user);
+    void updateUser(User user);
 
     void saveUser(User user);
 }
