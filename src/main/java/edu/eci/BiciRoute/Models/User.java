@@ -20,6 +20,7 @@ public class User{
     private ObjectId _id;
     private String email;
     private String name;
+    private String password;
     private TypeUser typeUser;
     private int amountKilometers;
     private int burntCalories;

@@ -37,4 +37,9 @@ public class UserService implements IUserService {
         user.set_id(ObjectId.get());
         userRepository.insert(user);
     }
+
+    @Override
+    public User getUserByEmal(String email) {
+        return userRepository.findByEmail(email);
+    }
 }

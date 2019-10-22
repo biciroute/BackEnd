@@ -1,11 +1,11 @@
 package edu.eci.BiciRoute.services;
 
 
-import edu.eci.BiciRoute.Models.User;
-import org.bson.types.ObjectId;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import edu.eci.BiciRoute.Models.User;
 
 @Service
 public interface IUserService {
@@ -17,4 +17,6 @@ public interface IUserService {
     void updateUser(User user);
 
     void saveUser(User user);
+
+    User getUserByEmal(String email);
 }

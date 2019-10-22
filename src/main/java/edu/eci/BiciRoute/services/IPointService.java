@@ -1,9 +1,8 @@
 package edu.eci.BiciRoute.services;
 
-import edu.eci.BiciRoute.Models.Point;
-import edu.eci.BiciRoute.Models.User;
-
 import java.util.List;
+
+import edu.eci.BiciRoute.Models.Point;
 
 public interface IPointService {
     List<Point> getPointList();

@@ -1,10 +1,8 @@
 package edu.eci.BiciRoute.services;
 
-import edu.eci.BiciRoute.Models.Route;
-import edu.eci.BiciRoute.Models.User;
-import org.bson.types.ObjectId;
-
 import java.util.List;
+
+import edu.eci.BiciRoute.Models.Route;
 
 public interface IRouteService {
 
