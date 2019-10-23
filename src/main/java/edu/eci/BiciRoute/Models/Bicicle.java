@@ -17,4 +17,6 @@ public class Bicicle {
     private String bars;
     private String forks;
     private String stem;
+    private String brand;
+    private String color;
 }

@@ -33,6 +33,15 @@ public class UserController {
         }
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getUserById(@PathVariable String id) {
+        try {
+            return new ResponseEntity<>(iUserService.getUserBy_id(id),HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<>("You can not delete user", HttpStatus.FORBIDDEN);
+        }
+    }
+
     @PostMapping("/register")
     public ResponseEntity<?> saveUser(@RequestBody User user) {
         try {
