@@ -18,7 +18,7 @@ public interface IUserService {
 
     void saveUser(User user);
 
-    User getUserByEmal(String email);
+    User getUserByEmail(String email);
 
     User getUserBy_id(String _id);
 }

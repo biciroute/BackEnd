@@ -9,6 +9,7 @@ import java.util.Date;
 
 import javax.servlet.ServletException;
 
+import lombok.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +30,7 @@ public class UserController {
         try {
             return new ResponseEntity<>(iUserService.getUserList(), HttpStatus.OK);
         } catch (Exception ex) {
-            return new ResponseEntity<>("It is not posssible bring all users", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("It is not possible to bring all users", HttpStatus.NOT_FOUND);
         }
     }
 
@@ -38,17 +39,26 @@ public class UserController {
         try {
             return new ResponseEntity<>(iUserService.getUserBy_id(id),HttpStatus.OK);
         } catch (Exception ex) {
-            return new ResponseEntity<>("You can not delete user", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("You could not delete the user", HttpStatus.FORBIDDEN);
         }
     }
 
     @PostMapping("/register")
     public ResponseEntity<?> saveUser(@RequestBody User user) {
         try {
+            if(user.getEmail()==null || user.getPassword()==null || user.getFirstName()==null || user.getLastName()==null){
+                return new ResponseEntity<>("You must fill in email, password, first name, and last name", HttpStatus.BAD_REQUEST);
+            }
+            User findUser = iUserService.getUserByEmail(user.getEmail());
+            if(findUser!=null){
+                return new ResponseEntity<>("This email has already been taken!", HttpStatus.CONFLICT);
+            }
             iUserService.saveUser(user);
-            return new ResponseEntity<>(HttpStatus.OK);
+            String jwtToken = Jwts.builder().setSubject(user.getEmail()).claim("roles", "user").setIssuedAt(new Date())
+                    .signWith(SignatureAlgorithm.HS256, "secretkey").compact();
+            return new ResponseEntity<>(new Token(jwtToken, user.getFirstName()), HttpStatus.OK);
         } catch (Exception ex) {
-            return new ResponseEntity<>("You can not create user", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("You could not create the user", HttpStatus.FORBIDDEN);
         }
     }
 
@@ -58,7 +68,7 @@ public class UserController {
             iUserService.updateUser(user);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception ex) {
-            return new ResponseEntity<>("You can not update user", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("You could not update the user", HttpStatus.FORBIDDEN);
         }
     }
 
@@ -68,7 +78,7 @@ public class UserController {
             iUserService.removeUser(id);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception ex) {
-            return new ResponseEntity<>("You can not delete user", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("You could not delete the user", HttpStatus.FORBIDDEN);
         }
     }
 
@@ -81,42 +91,31 @@ public class UserController {
             throw new ServletException("Please fill in username and password");
         }
 
-        String username = login.getEmail();
+        String email = login.getEmail();
         String password = login.getPassword();
 
-        User user = iUserService.getUserByEmal(username);
-
+        User user = iUserService.getUserByEmail(email);
         if (user == null) {
-            throw new ServletException("User username not found.");
+            throw new ServletException("Invalid login. Please check your email and password.");
         }
-
         String pwd = user.getPassword();
-
         if (!password.equals(pwd)) {
-            throw new ServletException("Invalid login. Please check your name and password.");
+            throw new ServletException("Invalid login. Please check your email and password.");
         }
         //
-        jwtToken = Jwts.builder().setSubject(username).claim("roles", "user").setIssuedAt(new Date())
+        jwtToken = Jwts.builder().setSubject(email).claim("roles", "user").setIssuedAt(new Date())
                 .signWith(SignatureAlgorithm.HS256, "secretkey").compact();
 
-        return new Token(jwtToken);
+        return new Token(jwtToken, user.getFirstName()); //THIS IS IMPORTANT!!. DO NOT REMOVE
     }
 
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @ToString
+    @Data
     public class Token {
-
         String accessToken;
-
-        public Token(String accessToken) {
-            this.accessToken = accessToken;
-        }
-
-        public String getAccessToken() {
-            return accessToken;
-        }
-
-        public void setAccessToken(String access_token) {
-            this.accessToken = access_token;
-        }
+        String firstName; //This token is assigned to this user. THIS IS IMPORTANT!!. DO NOT REMOVE
     }
 
 }
