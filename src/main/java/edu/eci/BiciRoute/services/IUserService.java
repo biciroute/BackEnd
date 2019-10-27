@@ -16,7 +16,7 @@ public interface IUserService {
 
     void updateUser(User user);
 
-    void saveUser(User user);
+    User saveUser(User user);
 
     User getUserByEmail(String email);
 

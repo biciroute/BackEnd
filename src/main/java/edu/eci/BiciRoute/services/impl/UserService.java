@@ -25,17 +25,16 @@ public class UserService implements IUserService {
         userRepository.deleteById(userId);
     }
 
-
-
     @Override
     public void updateUser(User user) {
         userRepository.save(user);
     }
 
     @Override
-    public void saveUser(User user) {
+    public User saveUser(User user) {
         user.set_id(ObjectId.get());
         userRepository.insert(user);
+        return user;
     }
 
     @Override

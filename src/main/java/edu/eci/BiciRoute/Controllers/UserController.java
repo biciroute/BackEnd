@@ -53,10 +53,10 @@ public class UserController {
             if(findUser!=null){
                 return new ResponseEntity<>("This email has already been taken!", HttpStatus.CONFLICT);
             }
-            iUserService.saveUser(user);
+            User savedUser = iUserService.saveUser(user);
             String jwtToken = Jwts.builder().setSubject(user.getEmail()).claim("roles", "user").setIssuedAt(new Date())
                     .signWith(SignatureAlgorithm.HS256, "secretkey").compact();
-            return new ResponseEntity<>(new Token(jwtToken, user.getFirstName()), HttpStatus.OK);
+            return new ResponseEntity<>(new Token(jwtToken, savedUser.getFirstName(), savedUser.get_id().toString()), HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>("Could not create user", HttpStatus.FORBIDDEN);
         }
@@ -85,8 +85,6 @@ public class UserController {
     @PostMapping(value = "/login")
     public Token login(@RequestBody User login) throws ServletException {
 
-        String jwtToken = "";
-
         if (login.getEmail() == null || login.getPassword() == null) {
             throw new ServletException("Must fill in username and password");
         }
@@ -103,10 +101,10 @@ public class UserController {
             throw new ServletException("Invalid login. Please, check your email and password.");
         }
         //
-        jwtToken = Jwts.builder().setSubject(email).claim("roles", "user").setIssuedAt(new Date())
+        String jwtToken = Jwts.builder().setSubject(email).claim("roles", "user").setIssuedAt(new Date())
                 .signWith(SignatureAlgorithm.HS256, "secretkey").compact();
 
-        return new Token(jwtToken, user.getFirstName()); //THIS IS IMPORTANT!!. DO NOT REMOVE
+        return new Token(jwtToken, user.getFirstName(), user.get_id().toString()); //THIS IS IMPORTANT!!. DO NOT REMOVE
     }
 
     @NoArgsConstructor
@@ -116,6 +114,7 @@ public class UserController {
     public class Token {
         String accessToken;
         String firstName; //This token is assigned to this user. THIS IS IMPORTANT!!. DO NOT REMOVE
+        Object userId;
     }
 
 }
