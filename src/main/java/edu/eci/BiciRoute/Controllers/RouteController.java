@@ -16,31 +16,45 @@ import org.springframework.web.bind.annotation.RestController;
 import edu.eci.BiciRoute.Models.Route;
 import edu.eci.BiciRoute.services.IRouteService;
 
+import java.util.List;
+
 
 @RestController
-@RequestMapping("v1/route")
+@RequestMapping("v1/routes")
 @CrossOrigin
 public class RouteController {
 
     @Autowired
     private IRouteService iRouteService;
 
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<?> getAllUser(@PathVariable String id){
+    @GetMapping(value = "/user/{userId}")
+    public ResponseEntity<?> getAllUser(@PathVariable String userId){
         try{
-            return new ResponseEntity<>(iRouteService.getRouteList(id),HttpStatus.OK);
+            return new ResponseEntity<>(iRouteService.getRouteList(userId),HttpStatus.OK);
         } catch (Exception ex) {
-            return new ResponseEntity<>("It is not posssible bring all users", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("It is not possible bring all routes", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping(value = "/{routeId}")
+    public ResponseEntity<?> getRoute(@PathVariable String routeId){
+        try{
+            return new ResponseEntity<>(iRouteService.getRoute(routeId),HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<>("It is not possible bring all routes", HttpStatus.NOT_FOUND);
         }
     }
 
     @PostMapping
     public ResponseEntity<?> saveRoute(@RequestBody Route route){
         try{
+            if(route.getOrigin()==null || route.getDestination()==null){
+                return new ResponseEntity<>("Must fill in origin, and destination", HttpStatus.BAD_REQUEST);
+            }
             iRouteService.saveRoute(route);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception ex) {
-            return new ResponseEntity<>("You can not create user", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("Could not create route", HttpStatus.FORBIDDEN);
         }
     }
 
@@ -50,7 +64,7 @@ public class RouteController {
             iRouteService.updateRoute(route);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception ex) {
-            return new ResponseEntity<>("You can not update user", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("Could not update route", HttpStatus.FORBIDDEN);
         }
     }
 
@@ -61,7 +75,7 @@ public class RouteController {
             iRouteService.removeRoute(id);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception ex) {
-            return new ResponseEntity<>("You can not delete user", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("Could not delete route", HttpStatus.FORBIDDEN);
         }
     }
 

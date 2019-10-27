@@ -39,7 +39,7 @@ public class UserController {
         try {
             return new ResponseEntity<>(iUserService.getUserBy_id(id),HttpStatus.OK);
         } catch (Exception ex) {
-            return new ResponseEntity<>("You could not delete the user", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("Could not delete user", HttpStatus.FORBIDDEN);
         }
     }
 
@@ -47,7 +47,7 @@ public class UserController {
     public ResponseEntity<?> saveUser(@RequestBody User user) {
         try {
             if(user.getEmail()==null || user.getPassword()==null || user.getFirstName()==null || user.getLastName()==null){
-                return new ResponseEntity<>("You must fill in email, password, first name, and last name", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>("Must fill in email, password, first name, and last name", HttpStatus.BAD_REQUEST);
             }
             User findUser = iUserService.getUserByEmail(user.getEmail());
             if(findUser!=null){
@@ -58,7 +58,7 @@ public class UserController {
                     .signWith(SignatureAlgorithm.HS256, "secretkey").compact();
             return new ResponseEntity<>(new Token(jwtToken, user.getFirstName()), HttpStatus.OK);
         } catch (Exception ex) {
-            return new ResponseEntity<>("You could not create the user", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("Could not create user", HttpStatus.FORBIDDEN);
         }
     }
 
@@ -68,7 +68,7 @@ public class UserController {
             iUserService.updateUser(user);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception ex) {
-            return new ResponseEntity<>("You could not update the user", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("Could not update user", HttpStatus.FORBIDDEN);
         }
     }
 
@@ -78,7 +78,7 @@ public class UserController {
             iUserService.removeUser(id);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception ex) {
-            return new ResponseEntity<>("You could not delete the user", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("Could not delete user", HttpStatus.FORBIDDEN);
         }
     }
 
@@ -88,7 +88,7 @@ public class UserController {
         String jwtToken = "";
 
         if (login.getEmail() == null || login.getPassword() == null) {
-            throw new ServletException("Please fill in username and password");
+            throw new ServletException("Must fill in username and password");
         }
 
         String email = login.getEmail();
@@ -96,11 +96,11 @@ public class UserController {
 
         User user = iUserService.getUserByEmail(email);
         if (user == null) {
-            throw new ServletException("Invalid login. Please check your email and password.");
+            throw new ServletException("Invalid login. Please, check your email and password.");
         }
         String pwd = user.getPassword();
         if (!password.equals(pwd)) {
-            throw new ServletException("Invalid login. Please check your email and password.");
+            throw new ServletException("Invalid login. Please, check your email and password.");
         }
         //
         jwtToken = Jwts.builder().setSubject(email).claim("roles", "user").setIssuedAt(new Date())
