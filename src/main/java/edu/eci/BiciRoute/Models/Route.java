@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
@@ -17,10 +18,16 @@ import java.util.List;
 public class Route{
     @Id
     private ObjectId _id;
+    @DBRef
     private Point origin;
+    @DBRef
     private Point destination;
-    private Point commonOrigin;
-    private Point commonDestination;
-    private List<ObjectId> users;
-    private ObjectId leaderRoute;
+    @DBRef
+    private Point pathRouteOriginPlace;
+    @DBRef
+    private Point pathRouteDestinationPlace;
+    @DBRef
+    private List<User> users;
+    @DBRef
+    private User leaderRoute;
 }

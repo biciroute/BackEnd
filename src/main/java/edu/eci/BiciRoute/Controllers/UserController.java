@@ -68,6 +68,7 @@ public class UserController {
             iUserService.updateUser(user);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception ex) {
+            ex.printStackTrace();
             return new ResponseEntity<>("You could not update the user", HttpStatus.FORBIDDEN);
         }
     }

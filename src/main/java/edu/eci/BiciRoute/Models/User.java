@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import lombok.Data;
+
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
@@ -22,10 +24,13 @@ public class User{
     private String firstName;
     private String lastName;
     private String password;
+    @DBRef
     private TypeUser typeUser;
     private int amountKilometers;
     private int burntCalories;
+    @DBRef
     private Bicicle bicicle;
-    private List<Route> routes;
+    /*@DBRef
+    private List<Route> routes;*/
 
 }
