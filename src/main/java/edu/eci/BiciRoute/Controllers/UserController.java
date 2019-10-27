@@ -84,11 +84,9 @@ public class UserController {
 
     @PostMapping(value = "/login")
     public Token login(@RequestBody User login) throws ServletException {
-
         if (login.getEmail() == null || login.getPassword() == null) {
             throw new ServletException("Must fill in username and password");
         }
-
         String email = login.getEmail();
         String password = login.getPassword();
 
@@ -100,10 +98,8 @@ public class UserController {
         if (!password.equals(pwd)) {
             throw new ServletException("Invalid login. Please, check your email and password.");
         }
-        //
         String jwtToken = Jwts.builder().setSubject(email).claim("roles", "user").setIssuedAt(new Date())
                 .signWith(SignatureAlgorithm.HS256, "secretkey").compact();
-
         return new Token(jwtToken, user.getFirstName(), user.get_id().toString()); //THIS IS IMPORTANT!!. DO NOT REMOVE
     }
 
