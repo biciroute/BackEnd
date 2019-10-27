@@ -2,11 +2,10 @@ package edu.eci.BiciRoute.services;
 
 import java.util.List;
 
+import edu.eci.BiciRoute.Models.CommonRoute;
 import edu.eci.BiciRoute.Models.Route;
 
 public interface IRouteService {
-
-    List<Route> getRouteList(String userId);
 
     Route getRoute(String idRoute);
 
@@ -15,4 +14,10 @@ public interface IRouteService {
     void updateRoute(Route user);
 
     void saveRoute(Route route);
+
+    List<CommonRoute> suggestRoute(CommonRoute commonRoute); 
+
+    List<Route> getRoutesByUser(String user_id);
+
+
 }

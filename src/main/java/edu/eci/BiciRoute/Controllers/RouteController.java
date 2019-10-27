@@ -13,10 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import edu.eci.BiciRoute.Models.CommonRoute;
 import edu.eci.BiciRoute.Models.Route;
 import edu.eci.BiciRoute.services.IRouteService;
-
-import java.util.List;
 
 
 @RestController
@@ -27,10 +26,11 @@ public class RouteController {
     @Autowired
     private IRouteService iRouteService;
 
-    @GetMapping(value = "/user/{userId}")
-    public ResponseEntity<?> getAllUser(@PathVariable String userId){
+    @GetMapping(value="/user/{user_id}")
+    public ResponseEntity<?> getRoutesbyUser(@PathVariable String user_id){
         try{
-            return new ResponseEntity<>(iRouteService.getRouteList(userId),HttpStatus.OK);
+            System.out.println("buenas");
+            return new ResponseEntity<>(iRouteService.getRoutesByUser(user_id),HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>("It is not possible bring all routes", HttpStatus.NOT_FOUND);
         }
@@ -78,5 +78,16 @@ public class RouteController {
             return new ResponseEntity<>("Could not delete route", HttpStatus.FORBIDDEN);
         }
     }
+
+    @PostMapping(value="/suggest")
+    public ResponseEntity<?> suggestRoute(@RequestBody CommonRoute commonRoute) {
+        try{
+            return new ResponseEntity<>(iRouteService.suggestRoute(commonRoute),HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<>("Could not suggest a Route", HttpStatus.FORBIDDEN);
+        }
+    }
+    
+    
 
 }

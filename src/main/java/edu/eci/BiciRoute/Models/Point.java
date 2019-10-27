@@ -16,6 +16,7 @@ public class Point {
     private ObjectId _id;
     private String latitude;
     private String longitude;
+    private boolean common;
 
 
 }

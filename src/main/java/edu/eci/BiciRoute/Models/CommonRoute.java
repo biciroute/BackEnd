@@ -8,12 +8,14 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
+
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Document
-public class Route{
+public class CommonRoute {
     @Id
     private ObjectId _id;
     @DBRef
@@ -21,7 +23,6 @@ public class Route{
     @DBRef
     private Point destination;
     @DBRef
-    User user;
-    @DBRef
-    CommonRoute commonRoute;
+    private User leaderRoute;
+    private Date hour;
 }
