@@ -35,7 +35,7 @@ public class UserService implements IUserService {
             if(user.getBicicle().get_id() ==  null) user.getBicicle().set_id(ObjectId.get());
             bicicleRepository.save(user.getBicicle());
         }
-        userRepository.deleteById(user.get_id().toString());
+        //userRepository.deleteById(user.get_id().toString());
         userRepository.save(user);
     }
 
