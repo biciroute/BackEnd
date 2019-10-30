@@ -25,4 +25,13 @@ public class CommonRoute {
     @DBRef
     private User leaderRoute;
     private Date hour;
+
+    @Override
+    public String toString() {
+        return "CommonRoute [_id=" + _id + ", destination=" + destination + ", hour=" + hour + ", leaderRoute="
+                + leaderRoute + ", origin=" + origin + "]";
+    }
+
+
+
 }

@@ -1,5 +1,7 @@
 package edu.eci.BiciRoute.services.impl;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -49,14 +51,32 @@ public class RouteService implements IRouteService {
         pointRepository.save(route.getOrigin());
 
         route.set_id(ObjectId.get());
+        route.getCommonRoute().set_id(ObjectId.get());
+        System.out.println(route.toString());
         iRouteRepository.save(route);
     }
 
     @Override
     public List<CommonRoute> suggestRoute(CommonRoute commonRoute) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(commonRoute.getHour());
+        int hours = calendar.get(Calendar.HOUR_OF_DAY);
+        int minutes = calendar.get(Calendar.MINUTE);
+        System.out.println(hours);
         List<CommonRoute> routes = commonRouteRepository.findByPoint(commonRoute.getOrigin().get_id(),
                 commonRoute.getDestination().get_id());
-        return routes;
+        List<CommonRoute> suggest = new ArrayList<>();
+        for(CommonRoute commonRoute1 : routes){
+            Calendar calendar1 = Calendar.getInstance();
+            if(commonRoute1.getHour()!=null){
+                calendar1.setTime(commonRoute.getHour());
+                int minutes1 = calendar.get(Calendar.MINUTE);
+                if(Math.abs(minutes1-minutes) <= 20){
+                    suggest.add(commonRoute1);
+                }
+            }
+        }
+        return suggest;
     }
 
     @Override
