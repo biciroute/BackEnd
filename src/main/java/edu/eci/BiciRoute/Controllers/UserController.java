@@ -43,25 +43,6 @@ public class UserController {
         }
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<?> saveUser(@RequestBody User user) {
-        try {
-            if(user.getEmail()==null || user.getPassword()==null || user.getFirstName()==null || user.getLastName()==null){
-                return new ResponseEntity<>("Must fill in email, password, first name, and last name", HttpStatus.BAD_REQUEST);
-            }
-            User findUser = iUserService.getUserByEmail(user.getEmail());
-            if(findUser!=null){
-                return new ResponseEntity<>("This email has already been taken!", HttpStatus.CONFLICT);
-            }
-            User savedUser = iUserService.saveUser(user);
-            String jwtToken = Jwts.builder().setSubject(user.getEmail()).claim("roles", "user").setIssuedAt(new Date())
-                    .signWith(SignatureAlgorithm.HS256, "secretkey").compact();
-            return new ResponseEntity<>(new Token(jwtToken, savedUser.getFirstName(), savedUser.get_id().toString()), HttpStatus.OK);
-        } catch (Exception ex) {
-            return new ResponseEntity<>("Could not create user", HttpStatus.FORBIDDEN);
-        }
-    }
-
     @PutMapping
     public ResponseEntity<?> updateUser(@RequestBody User user) {
         try {
@@ -80,37 +61,6 @@ public class UserController {
         } catch (Exception ex) {
             return new ResponseEntity<>("Could not delete user", HttpStatus.FORBIDDEN);
         }
-    }
-
-    @PostMapping(value = "/login")
-    public Token login(@RequestBody User login) throws ServletException {
-        if (login.getEmail() == null || login.getPassword() == null) {
-            throw new ServletException("Must fill in username and password");
-        }
-        String email = login.getEmail();
-        String password = login.getPassword();
-
-        User user = iUserService.getUserByEmail(email);
-        if (user == null) {
-            throw new ServletException("Invalid login. Please, check your email and password.");
-        }
-        String pwd = user.getPassword();
-        if (!password.equals(pwd)) {
-            throw new ServletException("Invalid login. Please, check your email and password.");
-        }
-        String jwtToken = Jwts.builder().setSubject(email).claim("roles", "user").setIssuedAt(new Date())
-                .signWith(SignatureAlgorithm.HS256, "secretkey").compact();
-        return new Token(jwtToken, user.getFirstName(), user.get_id().toString()); //THIS IS IMPORTANT!!. DO NOT REMOVE
-    }
-
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @ToString
-    @Data
-    public class Token {
-        String accessToken;
-        String firstName; //This token is assigned to this user. THIS IS IMPORTANT!!. DO NOT REMOVE
-        Object userId;
     }
 
 }
