@@ -56,6 +56,7 @@ public class RouteController {
             iRouteService.saveRoute(route);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception ex) {
+            ex.printStackTrace();
             return new ResponseEntity<>("Could not create route", HttpStatus.FORBIDDEN);
         }
     }

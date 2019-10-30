@@ -51,6 +51,8 @@ public class RouteService implements IRouteService {
         pointRepository.save(route.getOrigin());
 
         route.set_id(ObjectId.get());
+        route.getCommonRoute().set_id(ObjectId.get());
+        System.out.println(route.toString());
         iRouteRepository.save(route);
     }
 
