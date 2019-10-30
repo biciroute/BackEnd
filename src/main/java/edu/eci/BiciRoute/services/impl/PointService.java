@@ -13,20 +13,22 @@ import edu.eci.BiciRoute.services.IPointService;
 public class PointService implements IPointService {
 
     @Autowired
-    IPointRepository pointRepository;
+    IPointRepository iPointRepository;
 
     @Override
     public List<Point> getPointList() {
-        // TODO Auto-generated method stub
-        return null;
+        return iPointRepository.findAll();
     }
 
     @Override
     public void savePoint(Point point) {
-        pointRepository.save(point);
+        iPointRepository.save(point);
     }
 
-    
+    @Override
+    public List<Point> getAllCommonRoutes() {
+        return iPointRepository.findByCommonIsTrue();
+    }
 
 
 
