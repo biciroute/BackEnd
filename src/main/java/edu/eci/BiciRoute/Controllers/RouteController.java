@@ -26,6 +26,8 @@ public class RouteController {
     @Autowired
     private IRouteService iRouteService;
 
+
+
     @GetMapping(value="/user/{user_id}")
     public ResponseEntity<?> getRoutesbyUser(@PathVariable String user_id){
         try{
@@ -54,6 +56,7 @@ public class RouteController {
             iRouteService.saveRoute(route);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception ex) {
+            ex.printStackTrace();
             return new ResponseEntity<>("Could not create route", HttpStatus.FORBIDDEN);
         }
     }
@@ -84,10 +87,14 @@ public class RouteController {
         try{
             return new ResponseEntity<>(iRouteService.suggestRoute(commonRoute),HttpStatus.OK);
         } catch (Exception ex) {
+            ex.printStackTrace();
             return new ResponseEntity<>("Could not suggest a Route", HttpStatus.FORBIDDEN);
         }
     }
-    
-    
+
+
+
+
+
 
 }

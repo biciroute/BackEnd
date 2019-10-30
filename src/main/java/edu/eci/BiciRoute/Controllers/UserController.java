@@ -1,7 +1,9 @@
 package edu.eci.BiciRoute.Controllers;
 
 import edu.eci.BiciRoute.Models.User;
+import edu.eci.BiciRoute.services.IBicicleService;
 import edu.eci.BiciRoute.services.IUserService;
+import edu.eci.BiciRoute.services.impl.BicicleService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 

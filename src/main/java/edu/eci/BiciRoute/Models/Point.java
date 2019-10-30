@@ -18,5 +18,11 @@ public class Point {
     private String longitude;
     private boolean common;
 
+    @Override
+    public String toString() {
+        return "Point [_id=" + _id + ", common=" + common + ", latitude=" + latitude + ", longitude=" + longitude + "]";
+    }
+
+    
 
 }
