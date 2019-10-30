@@ -62,8 +62,7 @@ public class LoginController {
                     .signWith(SignatureAlgorithm.HS256, "secretkey").compact();
             return new ResponseEntity<>(new Token(jwtToken, savedUser.getFirstName(), savedUser.get_id().toString()), HttpStatus.OK);
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-            return new ResponseEntity<>("Could not create user", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("An error was occurred. Please try again!", HttpStatus.FORBIDDEN);
         }
     }
 
