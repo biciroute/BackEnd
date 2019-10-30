@@ -27,6 +27,7 @@ public class UserService implements IUserService {
 
     @Override
     public void updateUser(User user) {
+        userRepository.deleteById(user.get_id().toString());
         userRepository.save(user);
     }
 
