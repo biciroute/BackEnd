@@ -6,5 +6,6 @@ public interface IBicicleService {
 
     Bicicle getBicicle();
     void saveBicicle(Bicicle bicicle);
+    void updateBicicle(Bicicle bicicle);
 
 }
