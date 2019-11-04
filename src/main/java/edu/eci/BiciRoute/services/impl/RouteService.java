@@ -46,11 +46,11 @@ public class RouteService implements IRouteService {
     public void saveRoute(Route route) {
         route.getDestination().set_id(ObjectId.get());
         route.getOrigin().set_id(ObjectId.get());
-
         pointRepository.save(route.getDestination());
         pointRepository.save(route.getOrigin());
-
-        route.set_id(ObjectId.get());
+        if(route.getCommonRoute().get_id()!=null){
+            route.set_id(ObjectId.get());
+        }
         route.getCommonRoute().set_id(ObjectId.get());
         System.out.println(route.toString());
         iRouteRepository.save(route);
@@ -62,16 +62,28 @@ public class RouteService implements IRouteService {
         calendar.setTime(commonRoute.getHour());
         int hours = calendar.get(Calendar.HOUR_OF_DAY);
         int minutes = calendar.get(Calendar.MINUTE);
-        System.out.println(hours);
+        int dayofyear = calendar.get(Calendar.DAY_OF_YEAR);
+        System.out.println("dayofyear" + dayofyear);
+        System.out.println("Hou r " + hours + "  minu " + minutes);
+
         List<CommonRoute> routes = commonRouteRepository.findByPoint(commonRoute.getOrigin().get_id(),
                 commonRoute.getDestination().get_id());
         List<CommonRoute> suggest = new ArrayList<>();
         for(CommonRoute commonRoute1 : routes){
             Calendar calendar1 = Calendar.getInstance();
             if(commonRoute1.getHour()!=null){
-                calendar1.setTime(commonRoute.getHour());
-                int minutes1 = calendar.get(Calendar.MINUTE);
-                if(Math.abs(minutes1-minutes) <= 20){
+                calendar1.setTime(commonRoute1.getHour());
+                int minutes1 = calendar1.get(Calendar.MINUTE);
+                int dayofyear1 = calendar1.get(Calendar.DAY_OF_YEAR);
+                int hours1 = calendar1.get(Calendar.HOUR_OF_DAY);
+                System.out.println("dayofyear1" + dayofyear1);
+                System.out.println("Hou r " + hours1 + "  minu " + minutes1);
+                System.out.println(commonRoute1.getHour().toString());
+                if(dayofyear==dayofyear1 && hours == hours1 && Math.abs(minutes1-minutes) <= 20){
+
+
+                    System.out.println(commonRoute1.toString());
+
                     suggest.add(commonRoute1);
                 }
             }

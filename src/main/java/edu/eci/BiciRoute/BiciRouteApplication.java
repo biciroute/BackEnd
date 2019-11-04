@@ -17,7 +17,7 @@ import edu.eci.BiciRoute.Config.JwtFilter;
 import java.util.Date;
 
 @SpringBootApplication
-public class BiciRouteApplication implements CommandLineRunner {
+public class BiciRouteApplication /*implements CommandLineRunner*/ {
 
 
 	public static void main(String[] args) {
@@ -34,6 +34,8 @@ public class BiciRouteApplication implements CommandLineRunner {
 		return registrationBean;
 	}
 
+
+	/*
 	@Autowired
 	IRouteService iRouteService;
 
@@ -53,6 +55,6 @@ public class BiciRouteApplication implements CommandLineRunner {
 
 		CommonRoute commonRoute = new CommonRoute(ObjectId.get(),calle_100,calle_200,null,new Date());
 		iCommonRouteRepository.save(commonRoute);
-	}
+	}*/
 
 }
