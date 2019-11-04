@@ -24,5 +24,10 @@ public class BicicleService implements IBicicleService {
         bicicleRepository.save(bicicle);
     }
 
+    @Override
+    public void updateBicicle(Bicicle bicicle){
+        bicicleRepository.save(bicicle);
+    }
+
 
 }
