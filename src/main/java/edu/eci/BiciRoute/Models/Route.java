@@ -30,7 +30,4 @@ public class Route{
         return "Route [_id=" + _id + ", commonRoute=" + commonRoute + ", destination=" + destination + ", origin="
                 + origin + ", user=" + user + "]";
     }
-
-    
-
 }

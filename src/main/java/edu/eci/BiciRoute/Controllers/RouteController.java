@@ -26,8 +26,6 @@ public class RouteController {
     @Autowired
     private IRouteService iRouteService;
 
-
-
     @GetMapping(value="/user/{user_id}")
     public ResponseEntity<?> getRoutesbyUser(@PathVariable String user_id){
         try{
