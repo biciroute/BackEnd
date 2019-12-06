@@ -8,4 +8,7 @@ public interface IPointService {
     List<Point> getPointList();
     void savePoint(Point point);
     List<Point> getAllCommonRoutes();
+
+    void delete(Point point);
+
 }

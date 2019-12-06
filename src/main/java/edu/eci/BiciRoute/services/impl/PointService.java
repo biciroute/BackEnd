@@ -30,6 +30,8 @@ public class PointService implements IPointService {
         return iPointRepository.findByCommonIsTrue();
     }
 
-
+    public void delete(Point point){
+        iPointRepository.delete(point);
+    }
 
 }

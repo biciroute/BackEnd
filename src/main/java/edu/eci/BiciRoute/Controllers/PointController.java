@@ -1,5 +1,6 @@
 package edu.eci.BiciRoute.Controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.eci.BiciRoute.services.IPointService;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import edu.eci.BiciRoute.Models.Point;
 import edu.eci.BiciRoute.Repositories.IPointRepository;
+
+import javax.xml.ws.Response;
 
 @RestController
 @RequestMapping("v1/point")
@@ -41,4 +44,21 @@ public class PointController{
             return new ResponseEntity<>("Could not get all common points", HttpStatus.FORBIDDEN);
         }
     }
+
+    @GetMapping(value = "/pointsWithoutCommonRoute")
+    public ResponseEntity<?> deletePoint(){
+        try{
+            List<Point> points = getAllPoints();
+            List<Point> pointsWithoutAddress = new ArrayList<>();
+            for (Point p: points) {
+                if(p.getAddress()==null){
+                    pointsWithoutAddress.add(p);
+                }
+            }
+            return new ResponseEntity<>(pointsWithoutAddress, HttpStatus.OK);
+        }catch(Exception ex){
+            return new ResponseEntity<>("Could not delete the point", HttpStatus.FORBIDDEN);
+        }
+    }
+
 }
